@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunflower.petal.dao.MaterialDao">
+
+    <!--可重用的SQL代码段-->
+    <!--<sql id="columns">name,phone,email,address,beizhu</sql>-->
+
+    <delete id = "deleteBatchByIds" parameterType = "java.util.List">
+        <![CDATA[
+             delete from material where id in
+          ]]>
+        <foreach collection="ids" item = "model" open="(" separator="," close=")">
+            #{model}
+        </foreach>
+    </delete>
+
+
+    <!--<insert id="insertBatch">-->
+        <!--insert into product ( uid, groupon_id, create_time, receive_time) values-->
+        <!--<foreach collection="list" item="item" index="index" separator=",">-->
+            <!--(#{item.uid,jdbcType=BIGINT}, #{item.grouponId,jdbcType=BIGINT},-->
+            <!--#{item.createTime,jdbcType=INTEGER}, #{item.receiveTime,jdbcType=INTEGER})-->
+        <!--</foreach>-->
+    <!--</insert>-->
+
+    <!--<update id="updateSubmitTimeByUids" parameterType="map">-->
+        <!--update product-->
+        <!--set submit_time = #{submitTime,jdbcType=BIGINT} where uid in-->
+        <!--<foreach collection="list" item="uid" index="index"-->
+                 <!--open="(" close=")" separator=",">-->
+            <!--#{ uid}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+
+
+</mapper>

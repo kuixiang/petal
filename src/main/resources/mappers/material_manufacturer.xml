@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunflower.petal.dao.MaterialManufacturerDao">
+
+    <!--可重用的SQL代码段-->
+    <sql id="columns">id,name,beizhu</sql>
+
+    <insert id="addRLByMaterialId">
+        insert into material_manufacturer (materialId, manufacturerId, beizhu) values
+        <foreach collection="manufacturerIds" item="manufacturerId" index="index" separator=",">
+            (#{materialId},#{manufacturerId},#{beizhu})
+        </foreach>
+    </insert>
+
+    <insert id="addRLByManufacturerId">
+        insert into material_manufacturer (manufacturerId, materialId,beizhu) values
+        <foreach collection="materialIds" item="materialId" index="index" separator=",">
+            (#{manufacturerId},#{materialId},#{beizhu})
+        </foreach>
+    </insert>
+</mapper>

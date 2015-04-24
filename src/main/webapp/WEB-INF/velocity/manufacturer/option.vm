@@ -1,0 +1,65 @@
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">供应商-信息</h3>
+        </div>
+        <div class="panel-body">
+            <form id="manufacture_form" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="identifier">编号</label>
+                    <div class="col-sm-10">
+                        <input readonly class="form-control input-sm" id="identifier" name="id" value="$!{manufacturer.id}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" id="name" name="name" value="$!{manufacturer.name}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">电话</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" id="phone" name="phone" value="$!{manufacturer.phone}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">邮箱</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" id="email" name="email" value="$!{manufacturer.email}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">地址</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" id="address" name="address" value="$!{manufacturer.address}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="jinjia">提供材料</label>
+                    <div class="col-sm-10">
+                        <select name="materialIds" id="materials_select" multiple="multiple" style="width: 100%">
+                            #foreach($material in $!materials)
+                                <option  value="$!{material.id}"
+                                    #if($!{material.selected})
+                                         selected = selected
+                                    #end
+                                        >
+                                    $!{material.name}
+                                </option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="beizhu">备注</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="5" id="beizhu" name="beizhu">$!{manufacturer.beizhu}</textarea>
+                    </div>
+                </div>
+                <button class="btn btn-info btn-sm" type="button" id="save_btn"><i class="icon-ok"></i>保存</button>
+                <button class="btn btn-sm" type="reset" id="save_btn"><i class="icon-undo"></i>撤销</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/page/js/manufacturer/option.js"></script>

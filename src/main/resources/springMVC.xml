@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:property-placeholder location="classpath*:*.properties"/>
+
+    <context:component-scan base-package="com.sunflower.petal" />
+    <!--<mvc:annotation-driven />-->
+    <mvc:default-servlet-handler/>
+
+    <mvc:annotation-driven >
+        <mvc:message-converters register-defaults="true">
+            <!-- 新增的StringMessageConverter bean-->
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+
+             <!--将Jackson2HttpMessageConverter的默认格23:41 2014/6/26式化输出设为true -->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="org.codehaus.jackson.map.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="com.sunflower.petal.resorlver.UserHolderArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+    <!-- 参数转换器 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <!--日期转换器-->
+                <bean class="com.sunflower.petal.converter.StringToDateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <import resource="mybatis-config.xml"/>
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+    <bean class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean" id="contentNegotiationManager">
+        <property name="mediaTypes">
+            <value>
+                json=application/json
+                xml=application/xml
+            </value>
+        </property>
+    </bean>
+
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
+        <!--<property name="messageConverters">-->
+            <!--<list>-->
+                <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+                    <!--<property name="supportedMediaTypes">-->
+                        <!--<list>-->
+                            <!--<value>text/html;charset=UTF-8</value>-->
+                            <!--<value>application/json</value>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--&lt;!&ndash;< ref bean= "mappingJacksonHttpMessageConverter" />&ndash;&gt;-->
+                <!--&lt;!&ndash; 新增的StringMessageConverter bean&ndash;&gt;-->
+                <!--&lt;!&ndash;< ref bean= "stringHttpMessageConverter" />&ndash;&gt;-->
+                <!--&lt;!&ndash;< ref bean= "jsonHttpMessageConverter" />&ndash;&gt;-->
+                <!--&lt;!&ndash;< ref bean= "formHttpMessageConverter" />&ndash;&gt;-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.sunflower.petal.interceptor.UserHolderInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/velocity/"/>
+        <property name="configLocation" value="classpath:velocity.properties" />
+        <property name= "velocityProperties">
+            <props>
+                <prop key= "input.encoding">utf-8</prop>
+                <prop key= "output.encoding">utf-8</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="viewResolver"  class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".vm" />
+        <property name="toolboxConfigLocation" value="/velocity/toolbox.xml" />
+        <property name="layoutUrl" value="/layout/default.vm" />
+        <property name="layoutKey" value="layout" />
+        <property name="screenContentKey" value="screen_content" />
+        <property name="contentType" value="text/html;charset=utf-8" />
+    </bean>
+
+</beans> 

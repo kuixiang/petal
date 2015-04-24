@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<toolbox>
+    <tool>
+        <key>date</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+    </tool>
+    <tool>
+        <key>math</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+
+    <tool>
+        <key>dlog</key>
+        <scope>request</scope>
+        <class>com.sunflower.petal.tools.ResourceTool</class>
+    </tool>
+</toolbox>

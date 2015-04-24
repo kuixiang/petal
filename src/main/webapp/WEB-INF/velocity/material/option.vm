@@ -1,0 +1,70 @@
+    <div class="panel panel-success">
+        <div class="panel-heading">
+##            <a href="materialListPanel.vm"> list </a>
+            <h3 class="panel-title">材料信息</h3>
+        </div>
+        <div class="panel-body">
+            <form id="material_form" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="identifier">编号</label>
+                    <div class="col-sm-10">
+                        <input readonly class="form-control input-sm" id="identifier" name="id" value="$!{material.id}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-sm" id="name" name="name" value="$!{material.name}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="col-sm-2 control-label" for="guige">规格</label>
+                    <div class="col-sm-10">
+                        <input type="text"  class="input-group-sm" id="guige" name="guige" value="$!{material.guige}"/>
+                        <label for="yanse">颜色</label>
+                        <input type="text"  class="input-group-sm" id="yanse" name="yanse" value="$!{material.yanse}"/>
+                        <label  for="danwei">单位</label>
+
+                        <select id="danwei" name="danwei" size="1" value="$!{material.danwei}">
+                            <option value ="GE" #if($!{material.danwei} == "GE") selected #end >个</option>
+                            <option value ="JIAN" #if($!{material.danwei} == "JIAN") selected #end >件</option>
+                            <option value ="TAO" #if($!{material.danwei} == "TAO") selected #end >套</option>
+                            <option value ="ZU" #if($!{material.danwei} == "ZU") selected #end >组</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="jinjia">进货价</label>
+                    <div class="col-sm-10">
+                        <input class="form-control input-sm" id="jinjia" name="jinjia" value="$!{material.jinjia}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="jinjia">供货商</label>
+                    <div class="col-sm-10">
+                            <select name="manufacturerIds" id="manufacturers_select" multiple="multiple" style="width: 100%">
+                                #foreach($manufacturer in $!manufactures)
+                                    <option  value="$!{manufacturer.id}"
+                                        #if($!{manufacturer.selected})
+                                             selected = selected
+                                        #end
+                                            >
+                                        $!{manufacturer.name}
+                                        </option>
+                                #end
+                            </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="beizhu">备注</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="5" id="beizhu" name="beizhu">$!{material.beizhu}</textarea>
+                    </div>
+                </div>
+                <button class="btn btn-info btn-sm" type="button" id="save_btn"><i class="icon-ok"></i>保存</button>
+                <button class="btn btn-sm" type="reset" id="save_btn"><i class="icon-undo"></i>撤销</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/page/js/material/option.js"></script>

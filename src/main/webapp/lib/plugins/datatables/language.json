@@ -1,0 +1,17 @@
+{
+	"processing": "刷新中...",
+	"infoPostFix": "",
+	"url": "",
+    "lengthMenu": "每页展示 _MENU_ 条记录",
+    "info": "第 _PAGE_/_PAGES_ 页",
+    "search":"搜索",
+    "infoEmpty": "没有结果",
+    "zeroRecords" : "没有检索到数据",
+    "infoFiltered" : "(从 _MAX_ 条数据中检索)",
+    "paginate": {
+        "first":    "首页",
+        "previous": "<<",
+        "next": ">>",
+        "last":     "尾页"
+    }
+}

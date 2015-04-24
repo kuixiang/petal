@@ -1,0 +1,78 @@
+
+#define($cssblock)
+<link rel="stylesheet" href="/lib/plugins/fuelux/css/fuelux.css"/>
+##<link rel="stylesheet" href="/lib/plugins/fuelux/less/fuelux-namespace.less"/>
+##<link rel="stylesheet" href="/lib/plugins/fuelux/less/wizard.less"/>
+<link rel="stylesheet" href="/page/js/chudan/jinhuodan.css" />
+
+#end
+
+<div class="row-fluid wizard" data-initialize="wizard" id="myWizard">
+    <div class="span12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-blue widget-header-flat">
+                <h4 class="lighter">出单向导</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div id="fuelux-wizards">
+                        <div class="wizard">
+                            <ul class="steps">
+                                <li data-step="1" data-name="campaign" class="active">
+                                    <span class="badge">1</span>
+                                    选择出货
+                                    <span class="chevron"></span>
+                                </li>
+                                <li data-step="2">
+                                    <span class="badge">2</span>
+                                    修改出货
+                                    <span class="chevron"></span>
+                                </li>
+                                <li data-step="3" data-name="template">
+                                    <span class="badge">3</span>
+                                    打单
+                                    <span class="chevron"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="step-content row-fluid position-relative fuelux" id="step-container">
+                        <div class="step-pane active" data-step="1" id="step1">
+                            <div class="row-fluid">
+                                #parse("/chudan/jinhuodan_step1.vm")
+                            </div>
+                        </div>
+                        <div class="step-pane" data-step="2" id="step2">
+                            <div class="row-fluid">
+                                #parse("/chudan/jinhuodan_step2.vm")
+                            </div>
+                        </div>
+                        <div class="step-pane" data-step="3" id="step3">
+                            <div class="row-fluid">
+                                #parse("/chudan/jinhuodan_step3.vm")
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="row-fluid wizard-actions">
+                        <button class="btn btn-prev">
+                            <i class="icon-arrow-left"></i>
+                            上一步
+                        </button>
+                        <button class="btn btn-success btn-next" data-last="确认出单">
+                            下一步
+                            <i class="icon-arrow-right icon-on-right"></i>
+                        </button>
+                    </div>
+                </div><!-- /widget-main -->
+            </div><!-- /widget-body -->
+        </div>
+    </div>
+</div>
+
+<script src="/lib/plugins/fuelux/js/fuelux.min.js"></script>
+<script src="/lib/plugins/jquery.jqprint-0.3.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.1.0.js"></script>
+<script src="/page/js/chudan/jinhuodan.js"></script>

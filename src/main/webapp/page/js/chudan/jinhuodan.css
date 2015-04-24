@@ -1,0 +1,47 @@
+table.chudan-table {
+    width: 100%;
+}
+.chudan-table thead {
+    border: 1px solid #323131;
+}
+.chudan-table thead th{
+    border: 1px solid #323131;
+    height: 25px;
+}
+.chudan-table thead tr td{
+    border: 1px solid #323131;
+    height: 25px;
+}
+.chudan-table tbody {
+    border: 1px solid #323131;
+}
+.chudan-table tbody tr{
+    border: 1px solid #323131;
+}
+.chudan-table tbody tr td{
+    border: 1px solid #323131;
+    height: 22px;
+}
+
+.chudan-table tfoot {
+    border: 1px solid #323131;
+}
+.chudan-table tfoot th{
+    border: 1px solid #323131;
+    height: 25px;
+}
+.chudan-table tfoot td{
+    border: 1px solid #323131;
+    height: 25px;
+}
+h1, h2, h3 {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+h4, h5, h6 {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+.widget-main {
+    padding-top: 2px;
+}

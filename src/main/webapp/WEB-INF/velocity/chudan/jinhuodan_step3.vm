@@ -1,0 +1,119 @@
+#set($title = "胜辉数码")
+<style type="text/css" media="print">
+    #header,
+    .top_title,
+    #jqprint,
+    #footer,
+    #cssprint h3{display:none}
+</style>
+
+<div id="print_container">
+
+</div>
+
+<script id="print_item_template" type="text/x-handlebars-template">
+    <div class="widget-box">
+        <div class="widget-header widget-header-blue widget-header-flat">
+            <h4 class="lighter">胜辉数码灯饰-采购单</h4>
+        </div>
+        <div class="widget-body print_context">
+            <div class="widget-main">
+                <div class="row">
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-8" style="text-align: center;"><h2 style="font-weight: bold">中山市古镇胜辉数码灯饰电器厂</h2></div>
+                    <div class="col-xs-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center"><h6>地址:广东省中山市古镇古三工业区学校大道</h6></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center">
+                        <h6>电话:0760-22287646&nbsp;传真:0760-22287646</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-4" style="text-align: center;"><h4 style="margin-left: 5px;font-weight: bold">采购明细单</h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h4>供应商名称：{{manufacturerName}}</h4>
+                    </div>
+                    <div class="col-xs-4">
+
+                    </div>
+                    <div class="col-xs-4" style="text-align: right;padding-right: 20px">
+                        <h5>采购日期：$!date.format('yyyy-MM-dd',$!currentTime)</h5>
+                    </div>
+                </div>
+                <table class="chudan-table print_tb">
+                    <thead>
+                    <tr style="font-weight:bold;">
+                        <th class="identified" style="width: 45px;text-align: center">编号</th>
+                        <th class="manufacturer" style="width: 120px;text-align: center">供应商</th>
+                        <th class="materialName" style="width: 180px;text-align: center">材料名称</th>
+                        <th class="materialYanse" style="width: 50px;text-align: center">颜色</th>
+                        <th class="materialCount" style="width: 50px;text-align: center">数量</th>
+                        <th class="materialDanjia" style="width: 50px;text-align: center">单价</th>
+                        <th class="materialZaojia" style="width: 70px ;text-align: center">合计</th>
+                        <th class="beizhu" style="width: 50px;text-align: center">备注</th>
+                        <th class="beizhu" style="width: 50px;text-align: center">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody style="border: 1px">
+
+                    </tbody>
+                    <tfoot>
+                    <tr style="font-weight:bold;">
+                        <th class="identified">合计</th>
+                        <th class="gongyingshang manufacturer"></th>
+                        <th class="cailiaomingcheng materialName" style="text-align: center"></th>
+                        <th class="yanse materialYanse"></th>
+                        <th class="count-container materialCount" style="text-align: center"></th>
+                        <th class="danjia materialDanjia" style="text-align: center"></th>
+                        <th class="zongjia-container materialZaojia" style="text-align: right"></th>
+                        <th class="beizhu"></th>
+                        <th class="beizhu"></th>
+                    </tr>
+                    </tfoot>
+                </table>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4"></div>
+                    <div class="col-xs-4" style="text-align: right;padding-right: 25px;">制单：系统管理员</div>
+                </div>
+            </div><!-- /widget-main -->
+        </div><!-- /widget-body -->
+    </div>
+</script>
+<script id="print_tr_template" type="text/x-handlebars-template">
+    <tr data-materialId = "{{materialId}}" data-count="{{count}}" data-zaojia="{{zaojia}}">
+        <td class="hidden-120 identified" style="text-align: center">
+            {{index}}
+        </td>
+        <td class="manufacturer" style="text-align: center">
+            {{gongyingshang}}
+        </td>
+        <td class="materialName" style="text-align: center">
+            {{materialName}}
+        </td>
+        <td class="materialYanse">
+            {{materialYanse}}
+        </td>
+        <td class="hidden-480 materialCount" style="text-align: center;font-weight:bold;">
+            {{count}}
+        </td>
+        <td class="materialDanjia" style="text-align: center">
+            {{#toFixed materialdDanjia 2}}
+            {{/toFixed}}
+        </td>
+        <td class="hidden-480 materialZaojia" style="text-align: right">
+            {{#toFixed zaojia 2}}
+            {{/toFixed}}
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+</script>
