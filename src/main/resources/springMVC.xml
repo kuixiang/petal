@@ -86,6 +86,21 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <bean class="com.sunflower.petal.interceptor.LoginInterceptor">
+                <property name="cookieName" value="custom_cookie_name"/>
+                <property name="loginUrl" value="/admin/login_view"/>
+                <property name="doNotInterceptUrl">
+                    <list>
+                        <value>/admin/login_view</value>
+                        <value>/admin/login_validate</value>
+                        <value>/captcha/getCaptcha</value>
+                        <value>/captcha/validateCaptcha</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
             <bean class="com.sunflower.petal.interceptor.UserHolderInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

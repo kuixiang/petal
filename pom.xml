@@ -18,6 +18,11 @@
         <spring-data-jpa.version>1.4.1.RELEASE</spring-data-jpa.version>
 	</properties>
 	<dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
 		<!--<dependency>-->
 			<!--<groupId>org.hibernate</groupId>-->
 			<!--<artifactId>hibernate-core</artifactId>-->
