@@ -6,6 +6,8 @@ import com.sunflower.petal.entity.DataTableResponse;
 import com.sunflower.petal.entity.Manufacturer;
 import com.sunflower.petal.entity.Material;
 import com.sunflower.petal.utils.CommonUtil;
+
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.List;
  * Created by xiangkui on 14-2-13.
  */
 @Service("materialService")
-public class MaterialService implements DataTableHelper {
+public class MaterialService implements DataTableHelper,FuzzyQueryHelper<Material>{
     @Autowired
     private MaterialDao materialDao;
 
@@ -62,7 +64,6 @@ public class MaterialService implements DataTableHelper {
         return materialDao.deleteBatchByIds(ids);
     }
 
-    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();
@@ -89,8 +90,11 @@ public class MaterialService implements DataTableHelper {
         return materialDao.listByIds(materialIds);
     }
 
+    public List<Material> fuzzyQuery(String key) {
+        return materialDao.queryByName(key);
+    }
 
-//    @Override
+    //    @Override
 //    public Pagination<Material> getPagination(int pageSize, int pageIndex) {
 //        int start=pageSize*pageIndex;
 //        List<Material> list=materialDao.listPage(start,pageSize);

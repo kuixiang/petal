@@ -9,8 +9,9 @@ public class MaterialManufacturerRL {
     private Long manufacturerId;
     private String beizhu;
 
-    public Long getId() {
-        return id;
+    public Long getId()
+    {
+        return this.id;
     }
 
     public void setId(Long id) {

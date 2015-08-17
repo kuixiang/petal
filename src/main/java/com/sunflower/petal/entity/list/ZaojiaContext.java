@@ -12,30 +12,29 @@ import java.util.List;
 public class ZaojiaContext {
     private List<MaterialItem>  items = new ArrayList<MaterialItem>();//需要材料上下文
 
-    //计算使用因变量
-    private Double zaojiao = 0.0;//计算出来的总的造价
-    private Long manufacturerId;//分供应商打印订单的时候用到
-    private String manufacturerName;
+    private Double zaojiao = Double.valueOf(0.0D);
+    private List<Long> manufacturerIds = new ArrayList();
 
+    private List<String> manufacturerNames = new ArrayList();
 
-    public String getManufacturerName() {
-        return manufacturerName;
+    public List<String> getManufacturerNames() {
+        return this.manufacturerNames;
     }
 
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
+    public void setManufacturerNames(List<String> manufacturerNames) {
+        this.manufacturerNames = manufacturerNames;
     }
 
-    public Long getManufacturerId() {
-        return manufacturerId;
+    public List<Long> getManufacturerIds() {
+        return this.manufacturerIds;
     }
 
-    public void setManufacturerId(Long manufacturerId) {
-        this.manufacturerId = manufacturerId;
+    public void setManufacturerIds(List<Long> manufacturerIds) {
+        this.manufacturerIds = manufacturerIds;
     }
 
     public List<MaterialItem> getItems() {
-        return items;
+        return this.items;
     }
 
     public void setItems(List<MaterialItem> items) {
@@ -43,7 +42,7 @@ public class ZaojiaContext {
     }
 
     public Double getZaojiao() {
-        return zaojiao;
+        return this.zaojiao;
     }
 
     public void setZaojiao(Double zaojiao) {

@@ -49,4 +49,7 @@ public interface ManufacturerDao {
 
     @SelectProvider(type = ManufacturerDaoProvider.class, method = "listByIds")
     List<Manufacturer> listByIds(@Param("ids") List<Long> ids);
+
+    @Select("select * from "+TNAME+" where name like %#{key}%")
+    List<Manufacturer> queryByName(String key);
 }

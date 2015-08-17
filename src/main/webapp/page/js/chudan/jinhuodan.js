@@ -88,15 +88,23 @@ $(document).ready(function(){
             var count_showmodel = $('#count_showmodel').prop("checked");
             var heji_showmodel = $('#heji_showmodel').prop("checked");
             $.each(zaojias,function(index,item){
-                var manufacturerName = item.manufacturerName;
-                var manufacturerId  =item.manufacturerId;
-                if(!item.manufacturerId){
-                    manufacturerName = '其他';
-                }
+                var manufacturerIds  =item.manufacturerIds;
+                var manufacturerNames  =item.manufacturerNames;
+                var manufacturersMap = {};
+                $.each(manufacturerIds,function(index,item){
+                    manufacturersMap[item]={
+                        manufacturerId:item,
+                        manufacturerName:manufacturerNames[index]
+                    };
+                });
+                var manufacturers = [];
+                $.each(manufacturersMap,function(key,value){
+                    manufacturers.push(value);
+                });
                 var table_item = useTemplateId("material_table_template",{
                     incrementId:index+1,
-                    manufacturerId:manufacturerId,
-                    manufacturerName:manufacturerName,
+                    manufacturers:manufacturers,
+                    manufacturers_data:JSON.stringify(manufacturers),
                     danjia_showmodel:danjia_showmodel,
                     count_showmodel:count_showmodel,
                     heji_showmodel:heji_showmodel
@@ -104,11 +112,22 @@ $(document).ready(function(){
                 var $table_item = $(table_item);
                 var materialItems = item.items;
                 $(materialItems).each(function(index,item){
+                    var manufacturerIds  =item.manufacturerIds;
+                    var manufacturerNames  =item.manufacturerNames;
+                    var manufacturers = [];
+                    $.each(manufacturerIds,function(index,item){
+                        manufacturers.push({
+                            manufacturerId:item,
+                            manufacturerName:manufacturerNames[index]
+                        });
+                    });
                     var context = {
                         incrementId:index,
                         materialId : item.materialId,
                         materialName:item.materialName,
-                        materialdDanjia:item.materialDanjia,
+                        materialDanjia:item.materialDanjia,
+                        manufacturers:JSON.stringify(manufacturers),
+                        manufacturers_data:manufacturers,
                         count : item.count,
                         zaojia : item.zaojia
                     };
@@ -119,18 +138,92 @@ $(document).ready(function(){
             });
             ReComputeStep2();
             //后续补充功能
-            $("#chudan_container").find(".material_table_item").draggable();
-            $("#chudan_container").find(".material_table_item").droppable({
-                drop: function() {
-                    alert( "dropped" );
+            //后续补充功能
+            var $items = $("#chudan_container").find(".material_table_item");
+            var options = {
+                drop: function(event,ui) {
+                    var $source = $(ui.draggable);
+                    var $target  = $(this);
+                    var sourceList = getMaterialList($source);
+                    var targetList = getMaterialList($target);
+                    var resultMList = [];
+                    $.each(sourceList.materialList,function(index,item){
+                        resultMList.push(item);
+                    });
+                    $.each(targetList.materialList,function(index,item){
+                        resultMList.push(item);
+                    });
+                    //计算供货商列表
+                    var manufacturersMap = {};
+                    $.each(resultMList,function(index,item){
+                        var manufacturers = item.manufacturers;
+                        $.each(manufacturers,function(index,item){
+                            manufacturersMap[item.manufacturerId]=item;
+                        });
+                    });
+                    var manufacturers = [];
+                    $.each(manufacturersMap,function(key,value){
+                        manufacturers.push(value);
+                    });
+                    var table_item = useTemplateId("material_table_template",{
+                        incrementId:targetList.incrementid+"-"+sourceList.incrementid,
+                        manufacturers:manufacturers,
+                        manufacturers_data:JSON.stringify(manufacturers),
+                        danjia_showmodel:danjia_showmodel,
+                        count_showmodel:count_showmodel,
+                        heji_showmodel:heji_showmodel
+                    });
+                    var $table_item = $(table_item);
+                    $.each(resultMList,function(index,item){
+                        item.manufacturers_data=item.manufacturers;
+                        item.manufacturers = JSON.stringify(item.manufacturers);
+                        var result = useTemplateId("material_tr_template",item);
+                        $table_item.find("tbody").prepend(result);
+                    });
+                    //合并div
+                    $("#chudan_container").append($table_item);
+                    $source.remove();
+                    $target.remove();
+                    $items = $("#chudan_container").find(".material_table_item");
+                    $items.draggable({});
+                    $items.droppable(options);
+                    ReComputeStep2();
                 }
-            });
+            };
+            $items.draggable({});
+            $items.droppable(options);
         },null,{
             contentType:"application/json; charset=utf-8"
         });
     });
 
     //第2步页面---------------------------------------------------------
+    var getMaterialList = function(obj){
+      var result = {};
+      var materialList = [];
+      var incrementid = $(obj).data("incrementid");
+      var $table = $(obj).find("table.chudan_tb");
+        $table.find("tbody tr").each(function(index,item){
+            var $tr = $(this);
+            var materialid = $tr.data("materialid");
+            var materialName = $tr.data("materialname");
+            var zaojia = $tr.data("zaojia");
+            var count = $tr.data("count");
+            var manufacturers = $tr.data("manufacturers");
+            var materialDanjia = $tr.data("materialdanjia");
+            materialList.push({
+                materialId : materialid,
+                materialName:materialName,
+                manufacturers:manufacturers,
+                materialDanjia:materialDanjia,
+                zaojia:zaojia,
+                count:count
+            });
+        });
+        result.materialList = materialList;
+        result.incrementid = incrementid;
+        return result;
+    };
 
     $('#danjia_showmodel').on('change',function(){
         var danjia_showmodel = $('#danjia_showmodel').prop("checked");
@@ -164,19 +257,18 @@ $(document).ready(function(){
             var zaojia = 0;
             //特殊计算
             $table.find("tbody tr").each(function(index,item){
-                var $td = $("td:eq(3)",this);
+                var $td = $("td:eq(4)",this);
                 var data = $td.find('.data-container').html();
                 count += parseInt(data);
             });
             $table.find("tbody tr").each(function(index,item){
-                var $td = $("td:eq(4)",this);
+                var $td = $("td:eq(5)",this);
                 var data = $td.data('data');
                 zaojia += parseFloat(data);
             });
             $table.find("tfoot").find('.count-container').html(count);
             $table.find("tfoot").find('.zongjia-container').html(zaojia.toFixed(2));
         });
-
 
     };
     // step2->step3
@@ -204,25 +296,27 @@ $(document).ready(function(){
         $("#print_container").html('');
         $.each($("#chudan_container").find('table.chudan_tb'),function(index,item){
             var $chudan_table = $(item);//第二页的出单表
-            var manufacturerName = $chudan_table.data("manufacturername");
+            var manufacturers = $chudan_table.data("manufacturers");
             var print_item = useTemplateId("print_item_template",{
-                manufacturerName:manufacturerName
+                manufacturers:manufacturers
             });
             var $print_item = $(print_item);
             var $print_table = $print_item.find("table.print_tb");
             $chudan_table.find("tbody").find('tr').each(function(index,item){
                 var $tr = $(this);
-                var materialId  = $tr.find('td:eq(0)'),
-                    name = $tr.find('td:eq(1)').data('data'),
-                    materialdDanjia = $tr.find('td:eq(2)').data('data'),
-                    count = $tr.find('td:eq(3)').data('data'),
-                    zaojia = $tr.find('td:eq(4)').data('data');
+                var materialId  = $tr.find('td:eq(0)').data('data'),
+                    manufacturers = $tr.find('td:eq(1)').data('data'),
+                    name = $tr.find('td:eq(2)').data('data'),
+                    materialdDanjia = $tr.find('td:eq(3)').data('data'),
+                    count = $tr.find('td:eq(4)').data('data'),
+                    zaojia = $tr.find('td:eq(5)').data('data');
                 var identifiedIndex = index+1;
                 var context = {
                     index:identifiedIndex,
                     materialId:materialId,
                     materialName:name,
                     materialdDanjia:materialdDanjia,
+                    manufacturers:manufacturers,
                     count:count,
                     zaojia:zaojia
                 };
@@ -232,7 +326,7 @@ $(document).ready(function(){
             $("#print_container").append($print_item);
             //判断是否隐藏
             //单价
-            var $if_show_danjia = $chudan_table.find("thead tr").find('th:eq(2)').find('input.if_show');
+            var $if_show_danjia = $chudan_table.find("thead tr").find('th:eq(3)').find('input.if_show');
             if($if_show_danjia){
                 var checked = $if_show_danjia.prop('checked');
                 if(checked){//隐藏
@@ -245,8 +339,9 @@ $(document).ready(function(){
                     $print_table.find("tfoot tr").find('th.materialDanjia').show();
                 }
             }
+
             //数量
-            var $if_show_shuliang = $chudan_table.find("thead tr").find('th:eq(3)').find('input.if_show');
+            var $if_show_shuliang = $chudan_table.find("thead tr").find('th:eq(4)').find('input.if_show');
             if($if_show_shuliang){
                 var checked = $if_show_shuliang.prop('checked');
                 if(checked){//隐藏
@@ -260,7 +355,7 @@ $(document).ready(function(){
                 }
             }
             //合计金额
-            var $if_show_zonjia =  $chudan_table.find("thead tr").find('th:eq(4)').find('input.if_show');
+            var $if_show_zonjia =  $chudan_table.find("thead tr").find('th:eq(5)').find('input.if_show');
             if($if_show_zonjia){
                 var checked = $if_show_zonjia.prop('checked');
                 if(checked){//隐藏
@@ -284,7 +379,6 @@ $(document).ready(function(){
         $tr.remove();
         ReComputeStep2();
     });
-
 
     //第3步页面---------------------------------------------------------
     var ReComputeStep3 = function(){
