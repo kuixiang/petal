@@ -41,7 +41,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             try {
                 String cookieValue = CookieContext.getCookie(request, response, cookieName);
                 logger.info("|LoginInterceptor|preHandle|cookieValue|" + cookieValue);
-                //todo 如果cookie加密。对应此处需要解密
                 CookieContext cookieContext = JSON.parseObject(cookieValue, CookieContext.class);
                 CookieContext.setCookieContext(cookieContext);
                 logger.info("|LoginInterceptor|preHandle|cookieModel|" + JSON.toJSONString(cookieContext));
