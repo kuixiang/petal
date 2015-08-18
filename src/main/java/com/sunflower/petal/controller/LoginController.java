@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0.0
  * @since 2014-11-10
  */
-//@Controller
+@Controller
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class);

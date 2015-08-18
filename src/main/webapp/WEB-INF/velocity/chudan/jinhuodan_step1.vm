@@ -8,8 +8,8 @@
             </button>
             <label for="chudan_model">打单方式:</label>
             <select name="chudan_model" id="chudan_model">
-                <option value="1">分供货商</option>
                 <option value="0">总单</option>
+                <option value="1">分供货商</option>
             </select>
         </div>
     </div>

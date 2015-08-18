@@ -7,6 +7,7 @@ public class ProductMaterialRL {
     private Long id;
     private Long productId;
     private Long materialId;
+
     private Long count;
     private String beizhu;
 

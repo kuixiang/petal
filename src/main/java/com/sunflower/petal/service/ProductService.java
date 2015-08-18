@@ -16,7 +16,7 @@ import java.util.List;
  * Created by xiangkui on 14-2-13.
  */
 @Service("productService")
-public class ProductService implements DataTableHelper,FuzzyQueryHelper<Product>{
+public class ProductService implements DataTableHelper {
     @Autowired
     private ProductDao productDao;
 
@@ -32,10 +32,14 @@ public class ProductService implements DataTableHelper,FuzzyQueryHelper<Product>
     public List<Product> getAllProducts(){
        return productDao.listAll();
     }
+    public Product getMaterial(Long id){
+        return productDao.queryById(id);
+    }
     public int delete(Long[] ids){
         return productDao.deleteBatchByIds(ids);
     }
 
+    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();
@@ -54,16 +58,5 @@ public class ProductService implements DataTableHelper,FuzzyQueryHelper<Product>
 
     public Product getProduct(Long id) {
         return productDao.queryById(id);
-    }
-
-    public void updateProductImage(Long productId,Long fileUploadId) {
-        productDao.update(productId,fileUploadId);
-    }
-
-    /*
-    * 根据产品名称来模糊查询
-    * */
-    public List<Product> fuzzyQuery(String key) {
-        return productDao.queryProductsByName(key);
     }
 }

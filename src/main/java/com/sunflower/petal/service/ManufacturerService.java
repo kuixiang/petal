@@ -15,7 +15,7 @@ import java.util.List;
  * Created by xiangkui on 14-2-13.
  */
 @Service("manufactureService")
-public class ManufacturerService implements DataTableHelper ,FuzzyQueryHelper<Manufacturer>{
+public class ManufacturerService implements DataTableHelper {
     @Autowired
     private ManufacturerDao manufacturerDao;
 
@@ -38,6 +38,7 @@ public class ManufacturerService implements DataTableHelper ,FuzzyQueryHelper<Ma
         return manufacturerDao.deleteBatchByIds(ids);
     }
 
+    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();
@@ -56,9 +57,5 @@ public class ManufacturerService implements DataTableHelper ,FuzzyQueryHelper<Ma
 
     public List<Manufacturer> getListByIds(List<Long> manufacturerIds) {
         return manufacturerDao.listByIds(manufacturerIds);
-    }
-
-    public List<Manufacturer> fuzzyQuery(String key) {
-        return manufacturerDao.queryByName(key);
     }
 }

@@ -9,18 +9,10 @@ public class Product {
     private Long id;
     private String name;
     private String beizhu;
-    private Long productImageId;
 
 
     //getter and setter
 
-    public Long getProductImageId() {
-        return productImageId;
-    }
-
-    public void setProductImageId(Long productImageId) {
-        this.productImageId = productImageId;
-    }
 
     public String getBeizhu() {
         return beizhu;

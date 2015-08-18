@@ -23,7 +23,6 @@ var urls = {
     },
     manufacturer:{
         index:"/basicInfo/manufacturer.html",
-        listTransfer:"/manufacturer/listTransfer.ajax",
         list:"/manufacturer/list.ajax",
         add : "/manufacturer/add.html",
         save:"/manufacturer/save.ajax",

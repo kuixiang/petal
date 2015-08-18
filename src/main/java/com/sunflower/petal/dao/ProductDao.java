@@ -17,17 +17,11 @@ public interface ProductDao {
     @Update("update product set name=#{product.name},beizhu=#{product.beizhu} where id=#{product.id}")
     public int update(@Param("product") Product product);
 
-    @Update("update product set productImageId=#{fileUploadId} where id=#{productId}")
-    void update(@Param("productId")Long productId, @Param("fileUploadId")Long fileUploadId);
-
     @Select("select * from product where id=#{id}")
     public Product queryById(@Param("id") Long id);
+
     @Select("select * from product")
     public List<Product> listAll();
-
-    @Select("select * from product where name like %#{key}%")
-    public List<Product> queryProductsByName(@Param("key")String key);
-
     /**
      * 分页查询接口
      * @return
@@ -42,4 +36,5 @@ public interface ProductDao {
     Long getCountBySearchName(String search);
 
     int deleteBatchByIds(@Param("ids") Long[] ids);
+
 }

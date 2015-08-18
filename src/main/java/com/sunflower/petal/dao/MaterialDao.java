@@ -57,6 +57,4 @@ public interface MaterialDao {
 
     int deleteBatchByIds(@Param("ids") Long[] ids);
 
-    @Select("select * from material where name like %#{key}%")
-    List<Material> queryByName(String key);
 }

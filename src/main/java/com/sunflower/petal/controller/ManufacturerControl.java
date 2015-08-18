@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,17 +31,10 @@ public class ManufacturerControl {
 
     @Autowired
     private MaterialManufacturerService materialManufacturerService;
-
-    @RequestMapping({"/listTransfer.ajax"})
-    @ResponseBody
-    public JSONObject list(Long[] ids) {
-        List manufacturers = this.manufacturerService.getListByIds(Arrays.asList(ids));
-        return AjaxUtil.list2Json(manufacturers);
-    }
-    @RequestMapping({"/list.ajax"})
-    @ResponseBody
-    public JSONObject list(DataTableRequest request, Model model) {
-        DataTableResponse response = this.manufacturerService.getDataTableList(request);
+    //查询
+    @RequestMapping(value= "/list.ajax")
+    public @ResponseBody JSONObject list(DataTableRequest request,Model model){
+        DataTableResponse response = manufacturerService.getDataTableList(request);
         return AjaxUtil.dataTableJson(response);
     }
     //编辑/增加

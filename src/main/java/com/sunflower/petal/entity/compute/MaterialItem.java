@@ -8,24 +8,18 @@ import java.util.List;
  */
 public class MaterialItem {
     private Long id;
-    private Long materialId;
-    private Long count;
+    private Long materialId;//某个材料
+    private Long count;//count 个
+
+    //因变量
     private String materialName;
     private Double materialDanjia;
-    private Double zaojia;
-    private List<Long> manufacturerIds = new ArrayList();
-    private List<String> manufacturerNames = new ArrayList();
+    private Double zaojia; //材料造价
 
-    public List<String> getManufacturerNames() {
-        return this.manufacturerNames;
-    }
-
-    public void setManufacturerNames(List<String> manufacturerNames) {
-        this.manufacturerNames = manufacturerNames;
-    }
+    private List<Long> manufacturerIds=new ArrayList<Long>();//提供材料的供应商列表
 
     public List<Long> getManufacturerIds() {
-        return this.manufacturerIds;
+        return manufacturerIds;
     }
 
     public void setManufacturerIds(List<Long> manufacturerIds) {
@@ -33,7 +27,7 @@ public class MaterialItem {
     }
 
     public Double getMaterialDanjia() {
-        return this.materialDanjia;
+        return materialDanjia;
     }
 
     public void setMaterialDanjia(Double materialDanjia) {
@@ -41,7 +35,7 @@ public class MaterialItem {
     }
 
     public String getMaterialName() {
-        return this.materialName;
+        return materialName;
     }
 
     public void setMaterialName(String materialName) {
@@ -49,7 +43,7 @@ public class MaterialItem {
     }
 
     public Double getZaojia() {
-        return this.zaojia;
+        return zaojia;
     }
 
     public void setZaojia(Double zaojia) {
@@ -57,7 +51,7 @@ public class MaterialItem {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -65,7 +59,7 @@ public class MaterialItem {
     }
 
     public Long getMaterialId() {
-        return this.materialId;
+        return materialId;
     }
 
     public void setMaterialId(Long materialId) {
@@ -73,7 +67,7 @@ public class MaterialItem {
     }
 
     public Long getCount() {
-        return this.count;
+        return count;
     }
 
     public void setCount(Long count) {
