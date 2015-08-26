@@ -21,6 +21,10 @@ import java.util.List;
 
 /**
  * Created by xiangkui on 2015/4/16.
+ *
+ * 各种订单
+ * 2： 进货单（影响材料入库后库存量）
+ * 3： 发货单 （影响产品出库后库存量）
  */
 @Controller
 @RequestMapping(value = "/order")

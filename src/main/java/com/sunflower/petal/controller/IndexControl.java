@@ -40,8 +40,8 @@ public class IndexControl {
             redirect="user/list";
         }else if(menuItem.equals("manufacturer")) {
             redirect = "manufacturer/list";
-        }else if(menuItem.equals("order")){
-            redirect = "order/list";
+        }else if(menuItem.equals("quickentry")){
+            redirect = "quickEntry/newProduct";
         }else{//unkwon page
             redirect="";
         }

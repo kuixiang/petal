@@ -45,14 +45,11 @@ public class OrderService implements DataTableHelper{
         orderDao.deleteOrderById(id);
     }
 
-    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();
         String search = request.getSearch().get(DataTableRequest.SEAECH_VALUE);
-
         List<MaterialOrder> materials = orderDao.listPageAndSearchByName(start, length,search);
-
         Long count = orderDao.getCountBySearchName(search);
         DataTableResponse response = new DataTableResponse();
         response.setData(materials.toArray());

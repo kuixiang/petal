@@ -16,6 +16,7 @@ import java.util.List;
  * 原材料数据库持久层.
  */
 public interface MaterialDao {
+    public final String TNAME = "material";
     @Insert("insert into material(name,guige,yanse,danwei,jinjia,beizhu) values " +
             "(#{name},#{guige},#{yanse},#{danwei},#{jinjia},#{beizhu})")
     public void add(Material material);

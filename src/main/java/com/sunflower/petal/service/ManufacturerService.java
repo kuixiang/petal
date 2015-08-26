@@ -38,7 +38,6 @@ public class ManufacturerService implements DataTableHelper {
         return manufacturerDao.deleteBatchByIds(ids);
     }
 
-    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();

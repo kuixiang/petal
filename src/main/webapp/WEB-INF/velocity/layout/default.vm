@@ -223,9 +223,9 @@
             </a>
         </li>
         <li>
-            <a href="/basicInfo/order">
+            <a href="/basicInfo/quickentry">
                 <i class="icon-double-angle-right"></i>
-                进货单
+                一键录入
             </a>
         </li>
     </ul>

@@ -62,7 +62,6 @@ public class MaterialService implements DataTableHelper {
         return materialDao.deleteBatchByIds(ids);
     }
 
-    @Override
     public DataTableResponse getDataTableList(DataTableRequest request) {
         Integer start = request.getStart();
         Integer length = request.getLength();
@@ -89,15 +88,4 @@ public class MaterialService implements DataTableHelper {
         return materialDao.listByIds(materialIds);
     }
 
-
-//    @Override
-//    public Pagination<Material> getPagination(int pageSize, int pageIndex) {
-//        int start=pageSize*pageIndex;
-//        List<Material> list=materialDao.listPage(start,pageSize);
-//        Pagination<Material> pagination=new Pagination<Material>();
-//        pagination.setPageSize(pageSize);
-//        pagination.setCurrentPage(pageIndex);
-//        pagination.setList(list);
-//        return pagination;
-//    }
 }

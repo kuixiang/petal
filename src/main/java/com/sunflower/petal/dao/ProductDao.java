@@ -11,6 +11,7 @@ import java.util.List;
  * 原材料数据库持久层.
  */
 public interface ProductDao {
+    public final String TNAME = "product";
     @Insert("insert into product(name,beizhu) values (#{name},#{beizhu})")
     public void add(Product product);
 
