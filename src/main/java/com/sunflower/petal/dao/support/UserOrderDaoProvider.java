@@ -23,8 +23,30 @@ public class UserOrderDaoProvider {
 
     public String get(Map map){
         Long id = (Long) map.get("id");
-        String sql = "select * from "+TNAME +","+TNAME_ITEM+" where "+TNAME+".id="+TNAME_ITEM+".productId"+" AND "
-                + "id="+id;
+//        String sql = "select * from "+TNAME +","+TNAME_ITEM+" where "+TNAME+".id="+TNAME_ITEM+".productId"+" AND "
+//                + TNAME+".id="+id;
+        String sql = new StringBuilder()
+                .append("select \n")
+                .append("a.id\n")
+                .append(",a.title\n")
+                .append(",a.userId as userId\n")
+                .append(",a.orderTime as orderTime\n")
+                .append(",a.state as state\n")
+                .append(",c.`name` as user_name\n")
+                .append(",b.id as user_order_item_id\n")
+                .append(",b.productId as product_id\n")
+                .append(",d.name as product_name\n")
+                .append(",b.danjia\n")
+                .append(",b.count\n")
+                .append("from user_order a\n")
+                .append("LEFT JOIN user_order_item b\n")
+                .append("ON\n")
+                .append("a.id = b.userorderId\n")
+                .append("LEFT JOIN `user` c\n")
+                .append("ON\n")
+                .append("a.userId = c.id\n")
+                .append("LEFT JOIN product d\n")
+                .append("ON b.productId = d.id").toString();
         return sql;
     }
     public String add(Map map) {

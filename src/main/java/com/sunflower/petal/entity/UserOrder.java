@@ -16,11 +16,33 @@ public class UserOrder {
     private String title;
     // 新提交 --> 处理中 --> 完成
     //       -->       --> 废弃
-    private String state;
+    private UserOrderState state;
     private Date orderTime;
     private Long userId;
     private String beizhu;
     private List<UserOrderItem> items;
+
+    //下单用户名称 user.name
+    private String user_name;
+
+
+    //getter and setter
+
+    public UserOrderState getState() {
+        return state;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public void setState(UserOrderState state) {
+        this.state = state;
+    }
 
     public String getBeizhu() {
         return beizhu;
@@ -44,14 +66,6 @@ public class UserOrder {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public Date getOrderTime() {

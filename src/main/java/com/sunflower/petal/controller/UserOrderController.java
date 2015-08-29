@@ -7,6 +7,7 @@ package com.sunflower.petal.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +27,26 @@ import net.sf.json.JSONObject;
  * Created by xiangkui on 2015/8/25.
  *  * 1： 用户订单
  */
-@RequestMapping("/userOder")
+@Controller
+@RequestMapping("/userorder")
 public class UserOrderController {
     private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     private UserOrderService userOrderService;
+
+    /**
+     * 用户列表 首页
+     *
+     * @return
+     */
+    @RequestMapping({"index.html"})
+    public String index(){
+        return "/userorder/list";
+    }
+
     //查询
     @RequestMapping(value= "/list.ajax")
-    public @ResponseBody
-    JSONObject list(DataTableRequest request,Model model){
+    public @ResponseBody JSONObject list(DataTableRequest request,Model model){
         DataTableResponse response = userOrderService.getDataTableList(request);
         return AjaxUtil.dataTableJson(response);
     }
@@ -47,7 +59,7 @@ public class UserOrderController {
         }else{
 
         }
-        return "/userOder/option";
+        return "/userorder/option";
     }
     //保存
     @RequestMapping("/save.ajax")

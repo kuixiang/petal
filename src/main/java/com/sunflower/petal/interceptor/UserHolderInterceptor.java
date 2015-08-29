@@ -1,11 +1,13 @@
 package com.sunflower.petal.interceptor;
 
+import com.sunflower.petal.entity.Company;
 import com.sunflower.petal.entity.User;
 import com.sunflower.petal.entity.UserHolder;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -15,7 +17,8 @@ import java.util.Date;
  */
 public class UserHolderInterceptor implements HandlerInterceptor{
     private Long startTimestrap=System.currentTimeMillis();
-
+    @Resource
+    private Company company;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -27,7 +30,7 @@ public class UserHolderInterceptor implements HandlerInterceptor{
         user.setUsername("system");
         userHolder.setUser(user);
         request.setAttribute("userHolder",userHolder);
-
+        request.setAttribute("companyHolder",company);
         request.setAttribute("currentTime",new Date());
         return true;
     }

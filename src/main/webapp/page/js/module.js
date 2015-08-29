@@ -29,6 +29,23 @@ var urls = {
         edit:"/manufacturer/edit.html",
         delete:"/manufacturer/delete.ajax"
     },
+    user:{
+        index:"/basicInfo/user.html",
+        list:"/user/list.ajax",
+        add : "/user/add.html",
+        save:"/user/save.ajax",
+        edit:"/user/edit.html",
+        delete:"/user/delete.ajax"
+    },
+    //客户订单相关
+    userorder:{
+        index:"/userorder/index.html",
+        list:"/userorder/list.ajax",
+        add : "/userorder/add.html",
+        save:"/userorder/save.ajax",
+        edit:"/userorder/edit.html",
+        delete:"/userorder/delete.ajax"
+    },
     chudan:{
         jianhuodan_result:"/chudan/jianhuodan_result.ajax",
         jinhuodan_manufacturer:"/chudan/jianhuodan_manufacturer.ajax"

@@ -91,7 +91,7 @@
     <a href="#" class="navbar-brand">
         <small>
             <i class="icon-leaf"></i>
-            Petal 后台管理系统
+            $!{companyHolder.name} 后台管理系统
         </small>
     </a><!-- /.brand -->
 </div><!-- /.navbar-header -->
@@ -223,6 +223,12 @@
             </a>
         </li>
         <li>
+            <a href="/basicInfo/user">
+                <i class="icon-double-angle-right"></i>
+                用户
+            </a>
+        </li>
+        <li>
             <a href="/basicInfo/quickentry">
                 <i class="icon-double-angle-right"></i>
                 一键录入
@@ -247,6 +253,27 @@
 ##            </li>
 ##        </ul>
 ## </li>
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-list"></i>
+            <span class="menu-text">客户订单</span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="submenu">
+            <li>
+                <a href="/userorder/index.html">
+                    <i class="icon-double-angle-right"></i>
+                    订单列表
+                </a>
+            </li>
+            <li>
+                <a href="/userorder/add.html">
+                    <i class="icon-double-angle-right"></i>
+                    下单
+                </a>
+            </li>
+        </ul>
+    </li>
    <li>
         <a href="#" class="dropdown-toggle">
             <i class="icon-list"></i>

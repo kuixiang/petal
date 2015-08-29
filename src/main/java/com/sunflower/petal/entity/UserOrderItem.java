@@ -13,6 +13,37 @@ public class UserOrderItem {
     private Double danjia;
     private String beizhu;
 
+    //查询数据库辅助用
+    private Long user_order_item_id;
+    private Long product_id;
+    private Long product_name;
+
+    //getter and setter
+
+    public Long getUser_order_item_id() {
+        return user_order_item_id;
+    }
+
+    public void setUser_order_item_id(Long user_order_item_id) {
+        this.user_order_item_id = user_order_item_id;
+    }
+
+    public Long getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(Long product_id) {
+        this.product_id = product_id;
+    }
+
+    public Long getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(Long product_name) {
+        this.product_name = product_name;
+    }
+
     public Long getId() {
         return id;
     }

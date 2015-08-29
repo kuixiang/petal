@@ -7,7 +7,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
@@ -37,17 +40,39 @@ public interface UserOrderDao {
     String COLUMNS_ITEM = "productId,count,danjia,beizhu";
     String VALUES_ITEM = "#{productId},#{count},#{danjia},#{beizhu}";
 
+    //用户表
+    public final String TNAME_USER = UserDao.TNAME;
+    public final String SEARCHKEY_USER = TNAME_USER+".name";
+
     @Select("select count(*) from "+TNAME+" where "+SEARCHKEY+" like CONCAT('%',#{search},'%')")
     public Long getCountBySearchName(String search) ;
 
-    @Select("select * from "+TNAME+" where "+SEARCHKEY+" like CONCAT('%',#{search},'%') limit #{length} offset #{start}")
-    List listPageAndSearchByName(Integer start, Integer length, String search);
+    @Select("select "+TNAME+".*,"+TNAME_USER+".name as user_name"+" from "+TNAME+","+TNAME_USER+" where "
+            +TNAME+".userId="+TNAME_USER+".id"
+            +" and "
+            +SEARCHKEY_USER+" like "
+            + "CONCAT"
+            + "('%',"
+            + "#{search},"
+            + "'%') "
+            + "limit "
+            + "#{length} "
+            + "offset "
+            + "#{start}")
+    List<UserOrder> listPageAndSearchByName(@Param("start")Integer start, @Param("length")Integer length, @Param("search")String search);
 
     @Update("update " + TNAME + "set state='DISCARD' where id in #{ids}")
     void discard(@Param("ids") Long[] ids);
 
+
     @SelectProvider(type= UserOrderDaoProvider.class,method = "get")
+//    @Results(
+//            @Result(property="list",column="id",javaType=List.class,
+//                    many=@Many(select="com.wzkj.manage.mapper.RoutePointMapper.getByRoute"))
+//    )
     UserOrder get(@Param("id")Long id);
+
+//    查询用户订单页上下文
 
     @SelectProvider(type = UserOrderDaoProvider.class,method = "add")
     void add(UserOrder userOrder);

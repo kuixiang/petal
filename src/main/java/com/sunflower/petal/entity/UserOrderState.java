@@ -17,16 +17,8 @@ public enum  UserOrderState {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
         return String.valueOf(this.name);
-    }
-
-    public static String StringValue(UserOrderState state) {
-        return state.getName();
     }
 }

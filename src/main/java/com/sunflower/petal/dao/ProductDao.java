@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProductDao {
     public final String TNAME = "product";
     @Insert("insert into product(name,beizhu) values (#{name},#{beizhu})")
+    @SelectKey(keyProperty="id" ,before = false,resultType =Long.class,statement="SELECT LAST_INSERT_ID() AS ID")
     public void add(Product product);
 
     @Update("update product set name=#{product.name},beizhu=#{product.beizhu} where id=#{product.id}")

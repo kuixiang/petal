@@ -39,11 +39,11 @@ public interface ManufacturerDao {
     @Select("select * from "+TNAME+" where "+SEARCHKEY+" like CONCAT('%',#{search},'%') limit #{length} offset #{start}")
     public List<Manufacturer> listPageAndSearchByName(@Param("start") int start, @Param("length") int length, @Param("search") String search);
 
-    @Select("select count(*) from "+TNAME+"")
-    public Long getCount();
-
     @Select("select count(*) from "+TNAME+" where "+SEARCHKEY+" like CONCAT('%',#{search},'%')")
     Long getCountBySearchName(String search);
+
+    @Select("select count(*) from "+TNAME+"")
+    public Long getCount();
 
     int deleteBatchByIds(@Param("ids") Long[] ids);
 

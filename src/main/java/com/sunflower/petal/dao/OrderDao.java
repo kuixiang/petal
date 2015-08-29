@@ -25,7 +25,6 @@ public interface OrderDao {
     public final String SEARCHKEY = "name";
 
 
-
     void batchAdd(List<MaterialOrderItem> orders);
 
     MaterialOrder getOrder(Long id);
