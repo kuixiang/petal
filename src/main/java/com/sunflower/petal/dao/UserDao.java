@@ -78,4 +78,8 @@ public interface UserDao {
 
     @Update("update "+TNAME+" set "+ENABLE +"=true where id=#{id}")
     void enable(Long id);
+
+    @Select("select * from "+TNAME)
+    List<User> getAll();
+
 }

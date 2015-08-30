@@ -9,10 +9,25 @@ public class Product {
     private Long id;
     private String name;
     private String beizhu;
-
-
+    private String danjia;
+    private Danwei danwei;
     //getter and setter
 
+    public String getDanjia() {
+        return danjia;
+    }
+
+    public void setDanjia(String danjia) {
+        this.danjia = danjia;
+    }
+
+    public Danwei getDanwei() {
+        return danwei;
+    }
+
+    public void setDanwei(Danwei danwei) {
+        this.danwei = danwei;
+    }
 
     public String getBeizhu() {
         return beizhu;

@@ -12,7 +12,14 @@ import java.util.List;
  */
 public interface ProductDao {
     public final String TNAME = "product";
-    @Insert("insert into product(name,beizhu) values (#{name},#{beizhu})")
+    public final String COLUMNS = "name,danjia,danwei,beizhu";
+    public final String VALUES = "#{name},#{danjia},#{danwei},#{beizhu}";
+    public final String UPDATES = "name=#{product.name}" +
+            ",danjia=#{product.danjia}"+
+            ",danwei=#{product.danwei}"+
+            ",beizhu=#{product.beizhu}";
+
+    @Insert("insert into product("+COLUMNS+") values ("+VALUES+")")
     @SelectKey(keyProperty="id" ,before = false,resultType =Long.class,statement="SELECT LAST_INSERT_ID() AS ID")
     public void add(Product product);
 

@@ -11,8 +11,9 @@ import java.util.Date;
  *  日期转换器
  */
 public class StringToDateConverter implements Converter<String, Date> {
-    private SimpleDateFormat dateFormatPattern = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private SimpleDateFormat dateTimeFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    private SimpleDateFormat dateFormatPattern = new SimpleDateFormat("yyyy-MM-dd");
     public void setDateFormatPattern(String dateFormatPattern) {
         this.dateFormatPattern = new SimpleDateFormat(dateFormatPattern);
     }
@@ -26,10 +27,14 @@ public class StringToDateConverter implements Converter<String, Date> {
         try {
             resultDate = dateTimeFormat.parse(source);
         } catch (ParseException e) {
-            try {
-                resultDate = dateFormatPattern.parse(source);
-            } catch (ParseException e1) {
-                e1.printStackTrace();
+            try{
+                resultDate = dateTimeFormat2.parse(source);
+            }catch (ParseException e1){
+                try {
+                    resultDate = dateFormatPattern.parse(source);
+                } catch (ParseException e2) {
+                    e1.printStackTrace();
+                }
             }
         }
         return resultDate;

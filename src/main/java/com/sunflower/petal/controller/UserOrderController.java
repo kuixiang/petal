@@ -3,6 +3,8 @@
  */
 package com.sunflower.petal.controller;
 
+import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sunflower.petal.entity.DataTableRequest;
 import com.sunflower.petal.entity.DataTableResponse;
+import com.sunflower.petal.entity.Product;
+import com.sunflower.petal.entity.User;
 import com.sunflower.petal.entity.UserOrder;
+import com.sunflower.petal.entity.UserOrderState;
+import com.sunflower.petal.service.ProductService;
 import com.sunflower.petal.service.UserOrderService;
+import com.sunflower.petal.service.UserService;
 import com.sunflower.petal.utils.AjaxUtil;
 import com.sunflower.petal.utils.CommonUtil;
 
@@ -33,6 +40,10 @@ public class UserOrderController {
     private final static Logger logger = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     private UserOrderService userOrderService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private UserService usersService;
 
     /**
      * 用户列表 首页
@@ -53,9 +64,19 @@ public class UserOrderController {
     //编辑/增加
     @RequestMapping(value = {"/edit.html","/add.html"})
     public String editOrAdd(Long id,Model model){
-        if(CommonUtil.IsNotNull(id)){
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products",products);
+        List<User> users = usersService.getAll();
+        model.addAttribute("users",users);
+        model.addAttribute("userOrderStates", UserOrderState.values());
+        if(CommonUtil.IsNotNull(id)){//编辑模式
             UserOrder userOrder = userOrderService.get(id);
             model.addAttribute("userOrder",userOrder);
+            Long userId = userOrder.getUserId();
+            for (User user : users) {
+                if(user.getId().equals(userId))
+                    user.setSelected(true);
+            }
         }else{
 
         }
@@ -64,6 +85,9 @@ public class UserOrderController {
     //保存
     @RequestMapping("/save.ajax")
     public @ResponseBody JSONObject save(@RequestBody UserOrder userOrder){
+        if(CommonUtil.IsNull(userOrder.getOrderTime())){
+            userOrder.setOrderTime(new Date());
+        }
         userOrderService.save(userOrder);
         return AjaxUtil.success("成功",userOrder);
     }

@@ -27,9 +27,18 @@ public class User {
     private List<UserRole> userRole;
     //用户的登陆状态
     private LoginState loginState;
+    // 辅助操作相关----------------------------------------------------------
+    private boolean selected;
     //----------------------------------------------------------
-
     //getter and setter
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public Long getId() {
         return id;

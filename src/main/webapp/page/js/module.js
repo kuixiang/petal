@@ -44,7 +44,9 @@ var urls = {
         add : "/userorder/add.html",
         save:"/userorder/save.ajax",
         edit:"/userorder/edit.html",
-        delete:"/userorder/delete.ajax"
+        delete:"/userorder/delete.ajax",
+        addProduct:"/userorder/addProduct.ajax",
+        listProduct:"/userorder/listProduct.ajax"
     },
     chudan:{
         jianhuodan_result:"/chudan/jianhuodan_result.ajax",
