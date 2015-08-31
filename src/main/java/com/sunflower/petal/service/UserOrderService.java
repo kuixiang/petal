@@ -3,6 +3,7 @@
  */
 package com.sunflower.petal.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunflower.petal.dao.UserOrderDao;
 import com.sunflower.petal.entity.UserOrder;
+import com.sunflower.petal.entity.UserOrderItem;
 import com.sunflower.petal.utils.CommonUtil;
 
 /**
@@ -39,11 +41,29 @@ public class UserOrderService extends AbstractDataTableHelper{
     }
 
     public void save(UserOrder userOrder) {
-        if(CommonUtil.IsNotNull(userOrder.getId())){
+        List<UserOrderItem> items = userOrder.getItems();
+        if(CommonUtil.IsNotNull(userOrder.getId())){//更新模式
             userOrderDao.update(userOrder);
-        } else {
+            userOrderDao.deleteAllItems(userOrder.getId());
+            if(CommonUtil.IsNotNull(items)) {
+                Long userOrderId = userOrder.getId();
+                for (UserOrderItem item : items) {
+                    //同步关联上订单内容Id
+                    item.setUserOrderId(userOrderId);
+                }
+                userOrderDao.addItems(userOrder.getItems());
+            }
+        } else { //新增模式
+            userOrder.setOrderTime(new Date());
             userOrderDao.add(userOrder);
-            userOrderDao.addItems(userOrder.getItems());
+            if(CommonUtil.IsNotNull(items)) {
+                Long user_order_id = userOrder.getId();
+                for (UserOrderItem item : items) {
+                    //同步关联上订单内容Id
+                    item.setUserOrderId(user_order_id);
+                }
+                userOrderDao.addItems(userOrder.getItems());
+            }
         }
     }
 }

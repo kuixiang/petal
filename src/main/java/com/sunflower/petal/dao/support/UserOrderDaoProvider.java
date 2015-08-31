@@ -6,6 +6,8 @@ package com.sunflower.petal.dao.support;
 import java.util.List;
 import java.util.Map;
 
+import com.sunflower.petal.dao.ProductDao;
+import com.sunflower.petal.dao.UserDao;
 import com.sunflower.petal.dao.UserOrderDao;
 import com.sunflower.petal.entity.UserOrder;
 import com.sunflower.petal.entity.UserOrderItem;
@@ -21,42 +23,53 @@ public class UserOrderDaoProvider {
     private static final String  TNAME_ITEM = UserOrderDao.TNAME_ITEM;
     private static final String COLUMNS_ITEM = UserOrderDao.COLUMNS_ITEM;
 
+    private static final String TNAME_USER = UserDao.TNAME;
+    private static final String TNAME_PRODUCT = ProductDao.TNAME;
+
     public String get(Map map){
         Long id = (Long) map.get("id");
-//        String sql = "select * from "+TNAME +","+TNAME_ITEM+" where "+TNAME+".id="+TNAME_ITEM+".productId"+" AND "
-//                + TNAME+".id="+id;
         String sql = new StringBuilder()
-                .append("select \n")
-                .append("a.id\n")
-                .append(",a.title\n")
-                .append(",a.userId as userId\n")
-                .append(",a.orderTime as orderTime\n")
-                .append(",a.state as state\n")
-                .append(",c.`name` as user_name\n")
-                .append(",b.id as user_order_item_id\n")
-                .append(",b.productId as product_id\n")
-                .append(",d.name as product_name\n")
-                .append(",b.danjia\n")
-                .append(",b.count\n")
-                .append("from user_order a\n")
-                .append("LEFT JOIN user_order_item b\n")
-                .append("ON\n")
-                .append("a.id = b.userorderId\n")
-                .append("LEFT JOIN `user` c\n")
-                .append("ON\n")
-                .append("a.userId = c.id\n")
-                .append("LEFT JOIN product d\n")
-                .append("ON b.productId = d.id").toString();
+                .append("SELECT\n")
+                .append("\ta.id,\n")
+                .append("\ta.title,\n")
+                .append("\ta.userId AS userId,\n")
+                .append("\ta.orderTime AS orderTime,\n")
+                .append("\ta.state AS state,\n")
+                .append("\tc.`name` AS user_name\n")
+                .append("FROM\n")
+                .append("\t"+TNAME+" a\n")
+                .append("LEFT JOIN "+"`"+TNAME_USER+"`"+" c ON a.userId = c.id\n")
+                .append("WHERE\n")
+                .append("\ta.id = "+id)
+                .toString();
+        return sql;
+    }
+
+    public String getItems(Long id) {
+//        Long id = (Long) map.get("id");
+        String sql = new StringBuilder()
+                .append("SELECT\n"
+                        + "\ta.*\n"
+                        + ",a.id as user_order_item_id\n"
+                        + ",b.id as product_id\n"
+                        + ",b.name as product_name\n"
+                        + "FROM\n"
+                        + "\t "+TNAME_ITEM+" a\n"
+                        + "JOIN "+TNAME_PRODUCT+" b\n"
+                        + "ON a.productId = b.id\n"
+                        + "WHERE\n"
+                        + "\tuserOrderId = "+id)
+                .toString();
         return sql;
     }
     public String add(Map map) {
         UserOrder userOrder = (UserOrder) map.get("userOrder");
         StringBuilder sb = new StringBuilder("insert into "+TNAME +"("+COLUMNS+")"+" values "+"(");
-        sb.append(userOrder.getTitle());
+        sb.append(""+"'"+userOrder.getTitle()+"'");
         sb.append(","+userOrder.getState());
-        sb.append(","+userOrder.getOrderTime());
+        sb.append(","+"#{userOrder.orderTime,jdbcType=DATE}");
         sb.append(","+userOrder.getUserId());
-        sb.append(","+userOrder.getBeizhu());
+        sb.append(","+"'"+userOrder.getBeizhu()+"'");
         sb.append(")");
         return sb.toString();
     }
@@ -72,12 +85,12 @@ public class UserOrderDaoProvider {
             sb.append(","+item.getCount());
             sb.append(","+item.getDanjia());
             sb.append(","+item.getBeizhu());
+            sb.append(","+item.getUserOrderId());
             sb.append(")");
             if (i < items.size() - 1) {
                 sb.append(",");
             }
         }
-        sb.append(")");
         return sb.toString();
     }
 

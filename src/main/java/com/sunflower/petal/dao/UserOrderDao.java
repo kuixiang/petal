@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 
@@ -37,9 +38,9 @@ public interface UserOrderDao {
 
     //上下文内容表
     public final String TNAME_ITEM = "user_order_item";
-    String COLUMNS_ITEM = "productId,count,danjia,beizhu";
-    String VALUES_ITEM = "#{productId},#{count},#{danjia},#{beizhu}";
-
+    String COLUMNS_ITEM = "productId,count,danjia,beizhu,userOrderId";
+    String VALUES_ITEM = "#{productId},#{count},#{danjia},#{beizhu},#{userOrderId}";
+    String FK_USER_ORDER_ID_ITEM = "userOrderId";
     //用户表
     public final String TNAME_USER = UserDao.TNAME;
     public final String SEARCHKEY_USER = TNAME_USER+".name";
@@ -66,27 +67,29 @@ public interface UserOrderDao {
 
 
     @SelectProvider(type= UserOrderDaoProvider.class,method = "get")
-//    @Results(
-//            @Result(property="list",column="id",javaType=List.class,
-//                    many=@Many(select="com.wzkj.manage.mapper.RoutePointMapper.getByRoute"))
-//    )
+    @Results({
+            @Result(property="id",column="id",javaType=Long.class),
+            @Result(property="items",column="id",javaType=List.class,
+                    many=@Many(select="com.sunflower.petal.dao.UserOrderDao.getItems"))
+    })
     UserOrder get(@Param("id")Long id);
 
+    @SelectProvider(type= UserOrderDaoProvider.class,method = "getItems")
+    List<UserOrderItem> getItems(@Param("id")Long id);
 //    查询用户订单页上下文
 
     @SelectProvider(type = UserOrderDaoProvider.class,method = "add")
-    void add(UserOrder userOrder);
+    @SelectKey(keyProperty="id" ,before = false,resultType =Long.class,statement="SELECT LAST_INSERT_ID() AS ID")
+    void add(@Param("userOrder")UserOrder userOrder);
 
     @SelectProvider(type = UserOrderDaoProvider.class,method = "addItems")
-    void addItems(List<UserOrderItem> items);
+    void addItems(@Param("items")List<UserOrderItem> items);
 
     // 不支持订单中添加或增加商品信息
     @Update("update "+TNAME+" set "+UPDATES)
-    void update(UserOrder userOrder);
+    void update(@Param("userOrder")UserOrder userOrder);
 
-    @Insert("insert into "+TNAME_ITEM +"("+COLUMNS_ITEM+")"+"("+VALUES_ITEM+")")
-    void addUserOrderItem(Long id,UserOrderItem item);
+    @Delete("delete from "+TNAME_ITEM + " where "+FK_USER_ORDER_ID_ITEM+"=#{userOrderId}")
+    void deleteAllItems(@Param("userOrderId")Long userOrderId);
 
-    @Delete("delete * from "+TNAME_ITEM +" where id=#{id}")
-    void removeUserOrderItem(@Param("id")Long userOrderItemId);
 }

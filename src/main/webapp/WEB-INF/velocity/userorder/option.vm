@@ -145,7 +145,6 @@
                                                 <span class="lbl"></span>
                                             </label>
                                         </th>
-                                        <th>产品编号</th>
                                         <th>产品名称</th>
                                         <th class="hidden-480">单价</th>
                                         <th class="hidden-480">数量</th>
@@ -162,12 +161,22 @@
                                                     <span class="lbl"></span>
                                                 </label>
                                             </td>
-                                            <td>$item.product_id</td>
-                                            <td><a href="#">$item.product_name</a></td>
+                                            <td data-productId="$item.productId">
+                                                <a target="_blank" href="/product/edit.html?id=$item.productId">
+                                                    $item.product_name
+                                                </a>
+                                            </td>
                                             <td class="hidden-480">$item.danjia</td>
                                             <td class="hidden-480">$item.count</td>
-                                            <td class="hidden-480">$item.danjia*$item.count</td>
-                                            <td></td>
+                                            #set ($jine = $item.danjia * $item.count)
+                                            <td class="hidden-480">$jine</td>
+                                            <td>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                                    <a class="editor_remove red" href="javascript:void(0)">
+                                                        <i class="icon-trash bigger-130"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     #end
                                 </tbody>
@@ -194,13 +203,12 @@
                 <span class="lbl"></span>
             </label>
         </td>
-        <td><label name="items[{{@index}}].productId">{{item.productId}}</label></td>
-        <td><a href="javascript:void(0)">
-            <label name="items[{{@index}}].product_name">{{item.product_name}}</label></a>
+        <td data-productId="{{item.productId}}">
+            <a target="_blank" href="/product/edit.html?id={{item.productId}}">{{item.product_name}}</a>
         </td>
-        <td class="hidden-480"><label name="items[{{@index}}].danjia">{{item.product_danjia}}</label></td>
-        <td class="hidden-480"><label name="items[{{@index}}].count">{{item.product_count}}</label></td>
-        <td class="hidden-480"><label>{{#toFixed item.jine 2}}{{/toFixed}}</label></td>
+        <td class="hidden-480">{{item.product_danjia}}</td>
+        <td class="hidden-480">{{item.product_count}}</td>
+        <td class="hidden-480">{{#toFixed item.jine 2}}{{/toFixed}}</td>
         <td>
             <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                 <a class="editor_remove red" href="javascript:void(0)">

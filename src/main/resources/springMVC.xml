@@ -2,10 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
                 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath*:*.properties" file-encoding="UTF-8"/>
 
@@ -14,29 +14,37 @@
     <context:component-scan base-package="com.sunflower.petal.controller" />
     <!--<mvc:annotation-driven />-->
     <mvc:default-servlet-handler/>
-
     <mvc:annotation-driven >
         <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
             <!-- 新增的StringMessageConverter bean-->
             <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <constructor-arg value="UTF-8"/>
             </bean>
-
-             <!--将Jackson2HttpMessageConverter的默认格23:41 2014/6/26式化输出设为true -->
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="prettyPrint" value="true"/>
-            </bean>
-            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                 <property name="objectMapper">
-                    <bean class="org.codehaus.jackson.map.ObjectMapper">
-                        <property name="dateFormat">
-                            <bean class="java.text.SimpleDateFormat">
-                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
-                            </bean>
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                        <property name="featuresToDisable">
+                            <array>
+                                <util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>
+                            </array>
                         </property>
                     </bean>
                 </property>
+                <!--<property name="objectMapper">-->
+                    <!--<bean class="com.fasterxml.jackson.databind.ObjectMapper">-->
+                        <!--<property name="serializationInclusion">-->
+                            <!--<value>NON_NULL</value>-->
+                        <!--</property>-->
+                        <!--&lt;!&ndash;<property name="dateFormat">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<bean class="java.text.SimpleDateFormat">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+                    <!--</bean>-->
+                <!--</property>-->
             </bean>
         </mvc:message-converters>
         <mvc:argument-resolvers>
@@ -63,28 +71,36 @@
             </value>
         </property>
     </bean>
-
-    <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
-        <!--<property name="messageConverters">-->
+    <!--<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" >-->
+        <!--<property name="objectMapper">-->
+            <!--<bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">-->
+                <!--<property name="featuresToDisable">-->
+                    <!--<array>-->
+                        <!--<util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>-->
+                    <!--</array>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">-->
+        <!--<property name="defaultViews">-->
             <!--<list>-->
-                <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
-                    <!--<property name="supportedMediaTypes">-->
-                        <!--<list>-->
-                            <!--<value>text/html;charset=UTF-8</value>-->
-                            <!--<value>application/json</value>-->
-                        <!--</list>-->
+                <!--<bean-->
+                        <!--class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">-->
+                    <!--<property name="prefixJson" value="false" />-->
+                    <!--<property name="objectMapper">-->
+                        <!--<bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">-->
+                            <!--<property name="featuresToDisable">-->
+                                <!--<array>-->
+                                    <!--<util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>-->
+                                <!--</array>-->
+                            <!--</property>-->
+                        <!--</bean>-->
                     <!--</property>-->
                 <!--</bean>-->
-                <!--&lt;!&ndash;< ref bean= "mappingJacksonHttpMessageConverter" />&ndash;&gt;-->
-                <!--&lt;!&ndash; 新增的StringMessageConverter bean&ndash;&gt;-->
-                <!--&lt;!&ndash;< ref bean= "stringHttpMessageConverter" />&ndash;&gt;-->
-                <!--&lt;!&ndash;< ref bean= "jsonHttpMessageConverter" />&ndash;&gt;-->
-                <!--&lt;!&ndash;< ref bean= "formHttpMessageConverter" />&ndash;&gt;-->
             <!--</list>-->
         <!--</property>-->
     <!--</bean>-->
-
-
     <mvc:interceptors>
         <!--<mvc:interceptor>-->
             <!--<mvc:mapping path="/**"/>-->

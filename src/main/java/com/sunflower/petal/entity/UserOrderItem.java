@@ -12,13 +12,21 @@ public class UserOrderItem {
     private Long count;
     private Double danjia;
     private String beizhu;
-
+    private Long userOrderId;
     //查询数据库辅助用
     private Long user_order_item_id;
     private Long product_id;
     private Long product_name;
 
     //getter and setter
+
+    public Long getUserOrderId() {
+        return userOrderId;
+    }
+
+    public void setUserOrderId(Long userOrderId) {
+        this.userOrderId = userOrderId;
+    }
 
     public Long getUser_order_item_id() {
         return user_order_item_id;

@@ -19,7 +19,7 @@ public class UserOrder {
     private UserOrderState state;
     private Date orderTime;
     private Long userId;
-    private String beizhu;
+    private String beizhu="";
     private List<UserOrderItem> items;
 
     //下单用户名称 user.name
@@ -27,6 +27,7 @@ public class UserOrder {
 
 
     //getter and setter
+
 
     public UserOrderState getState() {
         return state;

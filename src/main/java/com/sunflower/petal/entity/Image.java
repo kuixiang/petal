@@ -23,7 +23,6 @@
  */
 package com.sunflower.petal.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -42,7 +42,12 @@ $(document).ready(function(){
             var product_danjia = data.danjia;//使用临时的定价价格
             var product_count = data.count;
             //直接添加到产品项列中
+            var last_index = $table.find("tbody tr:last").data("index");
+            if(!last_index){
+                last_index = -1;
+            }
             var result = useTemplateId("order_item_template", {
+                    index: last_index+1,
                     item: $.extend(data,{
                         product_name:product_name,
                         product_danjia:product_danjia,
@@ -68,9 +73,19 @@ $(document).ready(function(){
     //保存 材料
     $("#save_btn").on('click',function(){
         var data = getFormJson("#info_form");
-        delete data.state;
         delete data.orderTime;
-        post(urls.userorder.save,data,function(result){
+        //补充items
+        var items = [];
+        $.each($table.find("tbody tr"),function(index,item){
+            var $item = $(this);
+            items.push({
+                productId:$item.find("td:eq(1)").data("productid"),
+                danjia:$item.find("td:eq(2)").html(),
+                count:$item.find("td:eq(3)").html(),
+            });
+        });
+        data.items = items;
+        post(urls.userorder.save,JSON.stringify(data),function(result){
             $.messager.popup(result._msg);
             var user = result.data;
             if(user){
@@ -78,6 +93,8 @@ $(document).ready(function(){
                 $("#identifier").val(id);
             }
 //            window.location = urls.user.index;
+        },null,{
+            contentType:"application/json; charset=utf-8"
         });
         return false;
     });
