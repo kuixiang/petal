@@ -289,6 +289,39 @@
             </li>
         </ul>
     </li>
+    <li>
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-list"></i>
+            <span class="menu-text">库存</span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="submenu">
+            <li>
+                <a href="/repertory/index.html">
+                    <i class="icon-double-angle-right"></i>
+                    库存情况列表
+                </a>
+            </li>
+            <li>
+                <a href="/repertory/index_dan.html">
+                    <i class="icon-double-angle-right"></i>
+                    出入库单列表
+                </a>
+            </li>
+            <li>
+                <a href="/repertory/chudan/input/chudan.html">
+                    <i class="icon-double-angle-right"></i>
+                    进库
+                </a>
+            </li>
+            <li>
+                <a href="/repertory/chudan/output/chudan.html">
+                    <i class="icon-double-angle-right"></i>
+                    出库
+                </a>
+            </li>
+        </ul>
+    </li>
 ##<li>
 ##    <a href="/calendar/calendar.html">
 ##        <i class="icon-calendar"></i>

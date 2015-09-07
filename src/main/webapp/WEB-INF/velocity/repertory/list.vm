@@ -1,0 +1,168 @@
+
+<link rel="stylesheet" href="/page/css/repertory/list.css">
+<div class="col-xs-12">
+    <div class="table-header">
+        库存情况列表
+        <button id="add_btn" class="btn btn-success">
+            <i class="icon-plus align-top bigger-125"></i>
+            添加库存项
+        </button>
+        <button id="delete_btn" class="btn btn-success">
+            <i class="icon-minus align-top bigger-125"></i>
+            批量删除
+        </button>
+    </div>
+    <div class="table-responsive">
+        <div class="list_selector">
+            <div class="s-title">
+                <h3>
+                    <b></b><em>库存筛选</em>
+                </h3>
+                <div class="st-ext">
+                    共&nbsp;<span class="item_count_data_container"></span>个库存项
+                </div>
+            </div>
+            <form id="filtersForm"  class="form-horizontal" role="form">
+                <div class="form-group s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key col-sm-2">
+                            <label class="control-label no-padding-right" for="form-field-1">库存类别</label>
+                        </div>
+                        <div class="sl-value menu col-sm-9">
+                            <ul>
+                                <li>
+                                        <a href="javascript:void(0)">
+                                            <label for="material_choose">材料</label>
+                                            <input id="material_choose" name="type"
+                                                   value="MATERIAL"
+                                                   type="radio"/>
+                                            </a>
+                                </li>
+                                <li>
+                                        <a href="javascript:void(0)">
+                                            <label for="material_choose">产品</label>
+                                            <input id="material_choose" name="type"
+                                                   value="PRODUCT" type="radio"/>
+                                        </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key col-sm-2">
+                            <label class="control-label no-padding-right" for="form-field-1">物料编号</label>
+                        </div>
+                        <div class="sl-value">
+                            <input class="input-txt col-xs-10 col-sm-5" name="goodsId" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key col-sm-2">
+                            <label class="control-label no-padding-right" for="form-field-1">物料名称</label>
+                        </div>
+                        <div class="sl-value">
+                            <input class="input-txt col-xs-10 col-sm-5" name="name" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group s-brand">
+                    <div class="sl-wrap">
+                        <div class="sl-key col-sm-2">
+                            <label class="control-label no-padding-right" for="form-field-1">库存量剩余</label>
+                        </div>
+                        <div class="sl-value menu col-sm-10">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <label for="material_choose">不限</label>
+                                        <input id="material_choose" name="count" value="0~9999999999999999"
+                                               type="radio"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <label for="material_choose">0~10</label>
+                                        <input id="material_choose" name="count" value="0~10" type="radio"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <label for="material_choose">10~100</label>
+                                        <input id="material_choose" name="count" value="10~100" type="radio"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <label for="material_choose">100~1000</label>
+                                        <input id="material_choose" name="count" value="100~1000" type="radio"/>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <label for="material_choose">1000~</label>
+                                        <input id="material_choose" name="count" value="1000~99999999999999999"
+                                               type="radio"/>
+                                    </a>
+                                </li>
+                            </ul>
+                            <span class="count-input">
+                                <input class="input-txt" name="minCount" title="最小库存量" value="" class="col-sm-2"/>
+                                -
+                                <input class="input-txt" name="maxCount" title="最大库存量" value="" class="col-sm-2">
+                                <button class="count_commit" type="submit"></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button type="submit">查询</button>
+        </div>
+        <div class="list_main">
+            <table id="list_tb" class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="center">
+                        <label>
+                            <input type="checkbox" class="ace">
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>库存类别</th>
+                    <th class="hidden-480">名称</th>
+                    <th class="hidden-480">数量</th>
+                    <th class="hidden-480">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script id="order_item_template" type="text/x-handlebars-template">
+    <tr>
+        <td class="center">
+            <label>
+                <input type="checkbox" class="ace">
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td class="hidden-480">{{item.type}}</td>
+        <td data-productId="{{item.productId}}">
+            <a target="_blank" href="/product/edit.html?id={{item.productId}}">{{item.name}}</a>
+        </td>
+        <td class="hidden-480">{{item.count}}</td>
+        <td>
+            <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                <a class="editor_remove red" href="javascript:void(0)">
+                    <i class="icon-trash bigger-130"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+</script>
+<script src="/page/js/repertory/list.js"></script>

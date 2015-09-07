@@ -1,0 +1,222 @@
+    <div class="widget-box" style="opacity: 1; z-index: 0;">
+        <div class="widget-header header-color-dark">
+            <h5 class="bigger lighter">订单详情</h5>
+        </div>
+        <div class="widget-body">
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                添加产品项
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="item_form" class="form-horizontal">
+##                                <input hidden class="form-control input-sm hidden" name="orderId" value="$!{userOrder.id}"/>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="name">产品</label>
+                                    <div class="col-sm-10">
+                                        <select id="products_select" name="productId" multiple style="width: 75%">
+                                            #foreach($product in $!products)
+                                                <option value="$!{product.id}">$!{product.name}</option>
+                                            #end
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="count">数量</label>
+                                    <div class="col-sm-10">
+                                        <input  class="form-control input-sm" id="count" name="count"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="count">单价</label>
+                                    <div class="col-sm-10">
+                                        <input  class="form-control input-sm" id="danjia" name="danjia"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="beizhu">备注</label>
+                                    <div class="col-sm-10">
+                                        <input  class="form-control input-sm" id="beizhu" name="beizhu"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="item_close_btn" type="button" class="btn btn-default"
+                                    data-dismiss="modal">关闭
+                            </button>
+                            <button id="item_ok_btn" type="button" class="btn btn-primary">
+                                确定
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <div class="widget-toolbox">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#myModal">
+                            <i class="icon-plus align-top bigger-125"></i>
+                            添加产品项
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-main padding-16">
+                <form id="info_form" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="identifier">编号</label>
+                        <div class="col-sm-10">
+                            <input readonly class="form-control input-sm" id="identifier" name="id" value="$!{userOrder.id}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="title">标题</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-sm" id="title" name="title" value="$!{userOrder.title}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="user_name">客户</label>
+                        <div class="col-sm-10">
+                            <select id="users_select" name="userId" multiple style="width: 75%"
+                                #if($!{userOrder.id})
+                                    readonly
+                                #end
+
+                            >
+                                #foreach($user in $!users)
+                                    <option  value="$!{user.id}"
+                                        #if($!{user.selected})
+                                             selected = selected
+                                        #end
+                                            >
+                                        $!{user.name}
+                                    </option>
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                    #if($!{userOrder.id})
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="orderTime">下单时间</label>
+                            <div class="col-sm-10">
+                                #set($date = ${userOrder.orderTime})
+                                #if($!{userOrder.id})
+                                    <input readonly type="text" class="form-control input-sm" id="orderTime" name="orderTime"
+                                           value="$date.get('yyyy-MM-dd HH:mm')"/>
+                                #end
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="state">订单状态</label>
+                            <div class="col-sm-10">
+                            ##                            <input type="text" class="form-control input-sm" id="state" name="state" value="$!{userOrder.state}"/>
+                                <select id="state" name="state" class="form-control" >
+                                    #foreach($state in $!userOrderStates)
+                                        <option
+                                            #if($!{userOrder.state}==$state)
+                                                    selected = selected
+                                            #end
+                                                    value="$!{state.view}">$!{state.value}</option>
+                                    #end
+                                </select>
+                            </div>
+                        </div>
+                    #end
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="state">订单详情列表</label>
+                        <div class="col-sm-10">
+                    <table id="orderItems_tb" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">
+                                            <label>
+                                                <input type="checkbox" class="ace">
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                        <th>产品名称</th>
+                                        <th class="hidden-480">单价</th>
+                                        <th class="hidden-480">数量</th>
+                                        <th class="hidden-480">金额</th>
+                                        <th class="hidden-480">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    #foreach($item in $!{userOrder.items})
+                                        <tr>
+                                            <td class="center">
+                                                <label>
+                                                    <input type="checkbox" class="ace">
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </td>
+                                            <td data-productId="$item.productId">
+                                                <a target="_blank" href="/product/edit.html?id=$item.productId">
+                                                    $item.product_name
+                                                </a>
+                                            </td>
+                                            <td class="hidden-480">$item.danjia</td>
+                                            <td class="hidden-480">$item.count</td>
+                                            #set ($jine = $item.danjia * $item.count)
+                                            <td class="hidden-480">$jine</td>
+                                            <td>
+                                                <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                                    <a class="editor_remove red" href="javascript:void(0)">
+                                                        <i class="icon-trash bigger-130"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    #end
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="beizhu">备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="5" id="beizhu" name="beizhu">$!{userOrder.beizhu}</textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-info btn-sm" type="button" id="save_btn"><i class="icon-ok"></i>保存</button>
+                    <button class="btn btn-sm" type="reset" id="save_btn"><i class="icon-undo"></i>撤销</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<script id="order_item_template" type="text/x-handlebars-template">
+    <tr>
+        <td class="center">
+            <label>
+                <input type="checkbox" class="ace">
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td data-productId="{{item.productId}}">
+            <a target="_blank" href="/product/edit.html?id={{item.productId}}">{{item.product_name}}</a>
+        </td>
+        <td class="hidden-480">{{item.product_danjia}}</td>
+        <td class="hidden-480">{{item.product_count}}</td>
+        <td class="hidden-480">{{#toFixed item.jine 2}}{{/toFixed}}</td>
+        <td>
+            <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                <a class="editor_remove red" href="javascript:void(0)">
+                    <i class="icon-trash bigger-130"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+</script>
+
+    <script src="/page/js/userorder/option.js"></script>

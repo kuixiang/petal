@@ -32,8 +32,11 @@ public interface MaterialDao {
             "where name=#{material.name}")
     public int updateByName(@Param("material") Material material);
 
-    @Select("select * from material where id=#{id}")
+    @Select("select * from "+TNAME+" where id=#{id}")
     public Material queryById(@Param("id") Long id);
+
+    @Select("select * from "+TNAME+" where id=#{id}")
+    public Material get(Long id);
 
     @Select("select * from material")
     public List<Material> listAll();
@@ -53,9 +56,10 @@ public interface MaterialDao {
     @Select("select count(*) from material where name like CONCAT('%',#{search},'%')")
     Long getCountBySearchName(String search);
 
-//    @Delete("delete from material where id in #{ids}")
 //    int deleteByIds(Long[] ids);
 
     int deleteBatchByIds(@Param("ids") Long[] ids);
+
+    //    @Delete("delete from material where id in #{ids}")
 
 }

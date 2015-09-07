@@ -9,12 +9,11 @@ import java.util.Map;
  * Created by xiangkui on 2015/8/25.
  * 仓库库存项，描述的是仓库中 材料或产品的库存情况
  */
-public class RepertoryItem {
+public class RepertoryItem implements Comparable<RepertoryItem>{
     private Long id;
     private Long goodsId;
-    private String goodsType;
+    private RepertoryType goodsType;
     private Long count;
-    private String danwei;
     private String beizhu;
     private Map properties;
     //临时用辅助字段
@@ -52,11 +51,11 @@ public class RepertoryItem {
         this.goodsId = goodsId;
     }
 
-    public String getGoodsType() {
+    public RepertoryType getGoodsType() {
         return goodsType;
     }
 
-    public void setGoodsType(String goodsType) {
+    public void setGoodsType(RepertoryType goodsType) {
         this.goodsType = goodsType;
     }
 
@@ -68,13 +67,6 @@ public class RepertoryItem {
         this.count = count;
     }
 
-    public String getDanwei() {
-        return danwei;
-    }
-
-    public void setDanwei(String danwei) {
-        this.danwei = danwei;
-    }
 
     public String getBeizhu() {
         return beizhu;
@@ -82,5 +74,16 @@ public class RepertoryItem {
 
     public void setBeizhu(String beizhu) {
         this.beizhu = beizhu;
+    }
+
+    /**
+     * 比较库存量大小，通过count比较
+     * @param o
+     * @return
+     */
+    public int compareTo(RepertoryItem o) {
+        Long count1 = this.count;
+        Long count2 = o.getCount();
+        return (int) (count1-count2);
     }
 }

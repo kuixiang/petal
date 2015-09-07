@@ -29,6 +29,9 @@ public interface ProductDao {
     @Select("select * from product where id=#{id}")
     public Product queryById(@Param("id") Long id);
 
+    @Select("select * from product where id=#{id}")
+    Product get(Long id);
+
     @Select("select * from product")
     public List<Product> listAll();
     /**
@@ -45,5 +48,6 @@ public interface ProductDao {
     Long getCountBySearchName(String search);
 
     int deleteBatchByIds(@Param("ids") Long[] ids);
+
 
 }

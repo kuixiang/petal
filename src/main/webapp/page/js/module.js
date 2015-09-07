@@ -48,6 +48,15 @@ var urls = {
         addProduct:"/userorder/addProduct.ajax",
         listProduct:"/userorder/listProduct.ajax"
     },
+    //库存相关
+    repertory:{
+        index:"/repertory/index.html",
+        list:"/repertory/list.ajax",
+        add : "/repertory/add.html",
+        save:"/repertory/save.ajax",
+        edit:"/repertory/edit.html",
+        delete:"/repertory/delete.ajax",
+    },
     chudan:{
         jianhuodan_result:"/chudan/jianhuodan_result.ajax",
         jinhuodan_manufacturer:"/chudan/jianhuodan_manufacturer.ajax"
